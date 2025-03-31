@@ -6,6 +6,11 @@ module Tenkit
 
     def initialize(response)
       super
+
+      if !response.success?
+        raise RequestError.new("Unsuccessful Weather API request (#{response.code})", response: response)
+      end
+
       @weather = Weather.new(response)
     end
   end

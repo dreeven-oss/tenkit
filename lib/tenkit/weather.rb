@@ -12,7 +12,11 @@ module Tenkit
                 :weather_alerts
 
     def initialize(response)
-      parsed_response = JSON.parse(response.body)
+      parsed_response = begin
+        JSON.parse(response.body)
+      rescue
+        raise RequestError.new("Failed parsing Weather JSON response", response: response)
+      end
 
       current_weather = parsed_response['currentWeather']
       forecast_daily = parsed_response['forecastDaily']
