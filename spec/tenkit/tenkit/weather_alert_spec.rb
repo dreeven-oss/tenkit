@@ -3,9 +3,12 @@ require_relative "../spec_helper"
 RSpec.describe Tenkit::WeatherAlert do
   let(:client) { Tenkit::Client.new }
   let(:json) { File.read("test/fixtures/alert.json") }
-  let(:api_response) { double("WeatherAlertResponse", body: json) }
 
-  before { allow(client).to receive(:get).and_return(api_response) }
+  before do
+    stub_request(:any, /#{Tenkit::Client.base_uri}/).to_return(
+      body: json, headers: {content_type: 'application/json'}
+    )
+  end
 
   describe "weather_alert" do
     let(:alert_id) { "0828b382-f63c-4139-9f4f-91a05a4c7cdd" }

@@ -8,10 +8,14 @@ RSpec.describe Tenkit::Weather do
   let(:query) { {query: {dataSets: data_set}} }
 
   let(:client) { Tenkit::Client.new }
-  let(:api_response) { double("WeatherResponse", body: json) }
   let(:json) { File.read("test/fixtures/#{data_set}.json") }
 
-  before { allow(client).to receive(:get).and_return(api_response) }
+  before do
+    stub_request(:any, /#{Tenkit::Client.base_uri}/).to_return(
+      body: json, headers: {content_type: 'application/json'}
+    )
+    allow(client).to receive(:get).and_call_original
+  end
 
   describe "currentWeather" do
     let(:data_set) { "currentWeather" }
