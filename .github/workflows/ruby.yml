@@ -2,9 +2,9 @@ name: Automated Spec Runner (2.6 - 3.2)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "drvn" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "drvn" ]
 
 permissions:
   contents: read
