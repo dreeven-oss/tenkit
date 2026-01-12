@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.name = 'tenkit'
   s.version = Tenkit::VERSION
-  s.required_ruby_version = '>= 2.6.7'
+  s.required_ruby_version = '>= 3.2'
   s.summary = 'Wrapper for WeatherKit API'
   s.description = 'Wrapper for Weatherkit API'
   s.author = 'James Pierce'
