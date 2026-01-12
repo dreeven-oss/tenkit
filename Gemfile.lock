@@ -1,26 +1,32 @@
 PATH
   remote: .
   specs:
-    tenkit (0.0.7)
-      httparty (~> 0.21.0)
-      jwt (~> 2.7.0)
+    tenkit (0.0.8)
+      httparty (~> 0.24.0)
+      jwt (~> 2)
 
 GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
+    base64 (0.3.0)
+    bigdecimal (4.0.1)
     crack (0.4.5)
       rexml
+    csv (3.3.5)
     diff-lcs (1.5.0)
     dotenv (2.8.1)
     hashdiff (1.0.1)
-    httparty (0.21.0)
+    httparty (0.24.0)
+      csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
-    jwt (2.7.0)
-    mini_mime (1.1.2)
-    multi_xml (0.6.0)
+    jwt (2.10.2)
+      base64
+    mini_mime (1.1.5)
+    multi_xml (0.8.1)
+      bigdecimal (>= 3.1, < 5)
     public_suffix (5.0.1)
     rake (12.3.3)
     rexml (3.4.0)
