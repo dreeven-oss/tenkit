@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
 
   s.metadata["rubygems_mfa_required"] = "true"
 
-  s.add_dependency "httparty", "~> 0.24.0"
-  s.add_dependency "jwt", "~> 3.0"
+  s.add_dependency "httparty"
+  s.add_dependency "jwt"
 end
