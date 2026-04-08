@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "drvn" ]
+    branches: ["drvn"]
   pull_request:
-    branches: [ "drvn" ]
+    branches: ["drvn"]
 
 permissions:
   contents: read
@@ -14,16 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['3.2', '3.3', '3.4']
+        ruby-version: ['3.3', '3.4']
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
+
     - name: Set up Ruby
-    # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
-    # change this to (see https://github.com/ruby/setup-ruby#versioning):
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Run tests
+
+    - name: Test and lint
       run: bundle exec rake

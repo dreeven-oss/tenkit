@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
-require 'jwt'
-require 'openssl'
+require "jwt"
+require "openssl"
 
 module Tenkit
   class Authentication
+    JWT_ALGORITHM = "ES256"
+
     class << self
       def new_token(expires_in: nil)
-        JWT.encode(payload(expires_in), key, 'ES256', header)
+        JWT.encode(payload(expires_in), key, JWT_ALGORITHM, header)
       end
 
       private
 
       def header
         {
-          alg: 'ES256',
+          alg: JWT_ALGORITHM,
           kid: Tenkit.config.key_id,
           id: "#{Tenkit.config.team_id}.#{Tenkit.config.service_id}"
         }

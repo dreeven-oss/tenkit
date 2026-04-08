@@ -5,41 +5,46 @@ module Tenkit
     def initialize(contents)
       return unless contents.is_a?(Hash)
 
-      contents.each do |key, val|
+      contents.each do |key, value|
         name = Tenkit::Utils.snake(key)
         singleton_class.class_eval { attr_accessor name }
-        if val.is_a?(Array)
-          val = if key == "days"
-            val.map { |e| DayWeatherConditions.new(e) }
-          elsif key == "hours"
-            val.map { |e| HourWeatherConditions.new(e) }
-          elsif key == "features"
-            val.map { |e| Feature.new(e) }
-          elsif key == "messages"
-            val.map { |e| Message.new(e) }
-          elsif key == "coordinates"
-            Coordinates.new(val)
+        mapped_value = if value.is_a?(Array)
+          case key
+          when "days"
+            value.map { |e| DayWeatherConditions.new(e) }
+          when "hours"
+            value.map { |e| HourWeatherConditions.new(e) }
+          when "features"
+            value.map { |e| Feature.new(e) }
+          when "messages"
+            value.map { |e| Message.new(e) }
+          when "coordinates"
+            Coordinates.new(value)
           else
-            val.map { |e| Container.new(e) }
+            value.map { |e| Container.new(e) }
           end
-        elsif val.is_a?(Hash)
-          val = if key == "metadata"
-            Metadata.new(val)
-          elsif key == "daytimeForecast"
-            DaytimeForecast.new(val)
-          elsif key == "overnightForecast"
-            OvernightForecast.new(val)
-          elsif key == "restOfDayForecast"
-            RestOfDayForecast.new(val)
-          elsif key == "area"
-            Area.new(val)
-          elsif key == "geometry"
-            Geometry.new(val)
+        elsif value.is_a?(Hash)
+          case key
+          when "metadata"
+            Metadata.new(value)
+          when "daytimeForecast"
+            DaytimeForecast.new(value)
+          when "overnightForecast"
+            OvernightForecast.new(value)
+          when "restOfDayForecast"
+            RestOfDayForecast.new(value)
+          when "area"
+            Area.new(value)
+          when "geometry"
+            Geometry.new(value)
           else
-            Container.new(val)
+            Container.new(value)
           end
+        else
+          value
         end
-        instance_variable_set(:"@#{name}", val)
+
+        instance_variable_set(:"@#{name}", mapped_value)
       end
     end
   end

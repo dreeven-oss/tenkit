@@ -1,23 +1,24 @@
 # frozen_string_literal: true
 
-require 'httparty'
-require_relative './weather_response'
-require_relative './weather_alert_response'
+require "httparty"
+require_relative "weather_response"
+require_relative "weather_alert_response"
 
 module Tenkit
   class Client
     include HTTParty
-    base_uri 'https://weatherkit.apple.com/api/v1'
+
+    base_uri "https://weatherkit.apple.com/api/v1"
 
     attr_reader :user_token
 
     DATA_SETS = {
-      current_weather: 'currentWeather',
-      forecast_daily: 'forecastDaily',
-      forecast_hourly: 'forecastHourly',
-      forecast_next_hour: 'forecastNextHour',
-      trend_comparison: 'trendComparison',
-      weather_alerts: 'weatherAlerts'
+      current_weather: "currentWeather",
+      forecast_daily: "forecastDaily",
+      forecast_hourly: "forecastHourly",
+      forecast_next_hour: "forecastNextHour",
+      trend_comparison: "trendComparison",
+      weather_alerts: "weatherAlerts"
     }.freeze
 
     def initialize(user_token: nil)
@@ -27,15 +28,15 @@ module Tenkit
     end
 
     def availability(lat, lon, **options)
-      options[:country] ||= 'US'
+      options[:country] ||= "US"
 
-      query = { country: options[:country] }
+      query = {country: options[:country]}
       get("/availability/#{lat}/#{lon}", query: query)
     end
 
     def weather(lat, lon, **options)
       options[:data_sets] ||= [:current_weather]
-      options[:language] ||= 'en'
+      options[:language] ||= "en"
 
       query = weather_query_for_options(options)
       path = "/weather/#{options[:language]}/#{lat}/#{lon}"
@@ -44,7 +45,7 @@ module Tenkit
       WeatherResponse.new(response)
     end
 
-    def weather_alert(id, language: 'en')
+    def weather_alert(id, language: "en")
       path = "/weatherAlert/#{language}/#{id}"
       response = get(path)
       WeatherAlertResponse.new(response)
@@ -53,12 +54,10 @@ module Tenkit
     private
 
     def get(url, query: nil)
-      headers = { Authorization: "Bearer #{token}" }
-      params = { headers: headers }
+      headers = {Authorization: "Bearer #{token}"}
+      params = {headers: headers}
 
-      if !query.nil?
-        params[:query] = query
-      end
+      params[:query] = query unless query.nil?
 
       self.class.get(url, params)
     end
@@ -70,7 +69,7 @@ module Tenkit
     # Snake case options to expected query parameters
     # https://developer.apple.com/documentation/weatherkitrestapi/get-api-v1-weather-_language_-_latitude_-_longitude_#query-parameters
     def weather_query_for_options(options)
-      data_sets_param = options[:data_sets].map { |ds| DATA_SETS[ds] }.compact.join(',')
+      data_sets_param = options[:data_sets].map { |ds| DATA_SETS[ds] }.compact.join(",")
 
       {
         countryCode: options[:country_code],

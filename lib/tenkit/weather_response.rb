@@ -1,4 +1,4 @@
-require_relative './response'
+require_relative "response"
 
 module Tenkit
   class WeatherResponse < Response
@@ -7,7 +7,7 @@ module Tenkit
     def initialize(response)
       super
 
-      if !response.success?
+      unless response.success?
         raise RequestError.new("Unsuccessful Weather API request (#{response.code})", response: response)
       end
 
