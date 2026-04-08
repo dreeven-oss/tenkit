@@ -1,7 +1,5 @@
 require_relative "../spec_helper"
 RSpec.describe Tenkit::Utils do
-  subject { Tenkit::Utils }
-
   describe ".snake" do
     let(:simple) { "someCamelCaseString" }
     let(:correct) { "some_camel_case_string" }
@@ -9,12 +7,12 @@ RSpec.describe Tenkit::Utils do
     let(:mangled) { "some_aw_scredentials" }
 
     it "converts to snake case" do
-      expect(subject.snake(simple)).to eq correct
+      expect(described_class.snake(simple)).to eq correct
     end
 
     context "when passed an acronym" do
       it "does a mediocre job converting string" do
-        expect(subject.snake(complex)).to eq mangled
+        expect(described_class.snake(complex)).to eq mangled
       end
     end
 
@@ -22,7 +20,7 @@ RSpec.describe Tenkit::Utils do
       let(:patched_string) { PatchedString.new complex }
 
       it "uses string underscore method" do
-        expect(subject.snake(patched_string)).to eq :correct
+        expect(described_class.snake(patched_string)).to eq :correct
       end
     end
   end
